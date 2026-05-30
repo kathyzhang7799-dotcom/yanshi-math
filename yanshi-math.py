@@ -1,16 +1,22 @@
 import streamlit as st
 import time
 
-# --- 1. 網頁全域配置 ---
+# =========================================================================
+# 1. 網頁全域配置（必須是整支程式的第一個 Streamlit 指令）
+# =========================================================================
 st.set_page_config(page_title="THE MATRIX: CORE V8 (DEMO)", page_icon="⚡", layout="wide")
 
-# 初始化攔截狀態
+# =========================================================================
+# 2. 初始化核心狀態機
+# =========================================================================
 if "hacked" not in st.session_state:
     st.session_state.hacked = False
 
-# --- 2. 核心終極攔截：一旦觸發付費，直接劫持，完全不渲染後續的側邊欄和主介面 ---
+# =========================================================================
+# 3. 終極付費攔截牆（一旦 hacked 為 True，後續程式碼直接熔斷，連選單都不畫）
+# =========================================================================
 if st.session_state.hacked:
-    # 注入全螢幕超高密度程式碼流 HTML + 賽博付費彈窗
+    # 注入全螢幕賽博風格二進位代碼流 HTML + 雙套餐價目表彈窗
     st.markdown("""
         <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:black; z-index:99999; overflow:hidden; font-family:'Courier New', monospace; padding:20px;">
             <canvas id="fullscreen-matrix" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.4;"></canvas>
@@ -25,7 +31,7 @@ if st.session_state.hacked:
                     <div style="flex:1; border:2px solid #00FF00; background:rgba(0,30,0,0.5); padding:20px; border-radius:10px; box-shadow: 0 0 10px rgba(0,255,0,0.3);">
                         <h3 style="color:#FFFF00; font-size:22px; margin:0;">💡 LITE CORE</h3>
                         <p style="color:#00FF00; font-size:28px; font-weight:bold; margin:10px 0;">$2.00 <span style="font-size:14px; font-weight:normal;">USD</span></p>
-                        <ul style="color:#00FF00; text-align:left; font-size:13px; padding-left:15px; line-height:1.6;">
+                        <ul style="color:#00FF00; text-align:left; font-size:13px; padding-left:15px; line-height:1.6; margin:0;">
                             <li>Full Web Interface Access</li>
                             <li>Personal Secure Account</li>
                             <li>Standard Computing Speed</li>
@@ -35,7 +41,7 @@ if st.session_state.hacked:
                     <div style="flex:1; border:2px solid #FF0000; background:rgba(30,0,0,0.5); padding:20px; border-radius:10px; box-shadow: 0 0 15px rgba(255,0,0,0.4);">
                         <h3 style="color:#FF3333; font-size:22px; margin:0;">🔥 ELITE ARCHITECT</h3>
                         <p style="color:#FF0000; font-size:28px; font-weight:bold; margin:10px 0;">$4.00 <span style="font-size:14px; font-weight:normal; color:#FF0000;">USD</span></p>
-                        <ul style="color:#FF0000; text-align:left; font-size:13px; padding-left:15px; line-height:1.6;">
+                        <ul style="color:#FF0000; text-align:left; font-size:13px; padding-left:15px; line-height:1.6; margin:0;">
                             <li>Full Web Interface Access</li>
                             <li>Personal Secure Account</li>
                             <li><strong style="color:#FFFF00;">COMPLETE PYTHON SOURCE CODE</strong></li>
@@ -73,16 +79,18 @@ if st.session_state.hacked:
         </script>
     """, unsafe_allow_html=True)
     
-    # 依然保留你的後門重設按鈕（只有你知道在最底下可以點擊重設）
+    # 給你留的後門重設按鈕（只有把滑鼠移到最底下才會看到微弱按鈕，用來重置演示）
     if st.button("🔄 RESET SYSTEM (ADMIN ONLY)"):
         st.session_state.hacked = False
         st.rerun()
         
-    # 關鍵：直接用 st.stop() 強制終止！後面的側邊欄、主選單連畫出來的機會都沒有
+    # 強制全面停機，絕對不會渲染下方的側邊欄與介面
     st.stop()
 
 
-# --- 3. 基礎黑客背景特效（未付費前正常顯示） ---
+# =========================================================================
+# 4. 基礎黑客帝國數位雨特效（付費前正常顯示的炫耀背景）
+# =========================================================================
 st.markdown("""
     <canvas id="matrix-canvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1;"></canvas>
     <script>
@@ -120,44 +128,58 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# 攔截引導器
 def trigger_purchase_wall():
     st.session_state.hacked = True
     st.rerun()
 
-# --- 4. 正常主介面（只在 hacked == False 時才會執行到這裡） ---
+
+# =========================================================================
+# 5. 模擬主系統介面（hacked 為 False 時才會運行到這裡）
+# =========================================================================
 st.title("⚡ THE MATRIX: LOGIC SOURCE CORE V8")
 st.write("Welcome to the Ultimate Math Engine Web Interface. STATUS: [TRIAL MODE]")
 
+# 側邊欄完整 9 大功能選單
 menu = st.sidebar.selectbox("請選擇模組功能 (SYSTEM MENU):", [
     "1. Addition Mode", "2. Subtraction Mode", "3. Multiplication Mode", "4. Division Mode",
     "5. Advanced Formulas Selection", "6. Multi-functional Data Charts", "7. Perimeter Formulas Module",
     "8. Hexadecimal ASCII Cipher Encryption", "9. Hexadecimal ASCII Cipher Decryption"
 ])
 
-# 以下為各個模組的空殼輸入框
+st.sidebar.markdown("---")
+st.sidebar.error("🔴 LICENSE STATUS: UNLICENSED")
+st.sidebar.write("Core Engine: RESTRICTED")
+
+# --- 各功能模組空殼渲染（按按鈕全部強制執行觸發器） ---
+
 if menu == "1. Addition Mode":
     st.subheader("➕ [Addition Mode]")
     st.text_input("Enter 1st addend:")
     st.text_input("Enter 2nd addend:")
-    if st.button("EXECUTE ADDITION"): trigger_purchase_wall()
+    if st.button("EXECUTE ADDITION"): 
+        trigger_purchase_wall()
 
 elif menu == "2. Subtraction Mode":
     st.subheader("➖ [Subtraction Mode]")
     st.text_input("Enter minuend:")
     st.text_input("Enter subtrahend:")
-    if st.button("EXECUTE SUBTRACTION"): trigger_purchase_wall()
+    if st.button("EXECUTE SUBTRACTION"): 
+        trigger_purchase_wall()
 
 elif menu == "3. Multiplication Mode":
     st.subheader("✖️ [Multiplication Mode]")
     st.text_input("Enter 1st factor:")
     st.text_input("Enter 2nd factor:")
-    if st.button("EXECUTE MULTIPLICATION"): trigger_purchase_wall()
+    if st.button("EXECUTE MULTIPLICATION"): 
+        trigger_purchase_wall()
 
 elif menu == "4. Division Mode":
     st.subheader("➗ [Division Mode]")
     st.text_input("Enter dividend:")
     st.text_input("Enter divisor:")
-    if st.button("EXECUTE DIVISION"): trigger_purchase_wall()
+    if st.button("EXECUTE DIVISION"): 
+        trigger_purchase_wall()
 
 elif menu == "5. Advanced Formulas Selection":
     st.subheader("🧠 [Advanced Formulas Menu]")
@@ -165,26 +187,32 @@ elif menu == "5. Advanced Formulas Selection":
         "1. Quadratic Equation Root Solver", "2. Perfect Square Expansion", 
         "3. Pythagorean Theorem Unknown Side", "4. Area Formulas Core", "5. Volume Formulas Core"
     ])
-    st.text_input("Parameter A:")
+    st.text_input("Parameter A (e.g., Coefficient / Side Length):")
     st.text_input("Parameter B:")
-    if st.button("CALCULATE FORMULA"): trigger_purchase_wall()
+    if st.button("CALCULATE FORMULA"): 
+        trigger_purchase_wall()
 
 elif menu == "6. Multi-functional Data Charts":
     st.subheader("📚 [Data Reference Charts]")
-    st.selectbox("Select Database Chart:", ["1. Multiplication Table", "2. Prime Numbers Chart"])
-    if st.button("LOAD DATABASE CHART"): trigger_purchase_wall()
+    st.selectbox("Select Database Chart:", ["1. Multiplication Table", "2. Prime Numbers Chart (under 1000)"])
+    if st.button("LOAD DATABASE CHART"): 
+        trigger_purchase_wall()
 
 elif menu == "7. Perimeter Formulas Module":
     st.subheader("📏 [Perimeter Calculation Mode]")
-    st.text_input("Enter dimension data:")
-    if st.button("CALCULATE PERIMETER"): trigger_purchase_wall()
+    st.text_input("Enter dimension data 1:")
+    st.text_input("Enter dimension data 2:")
+    if st.button("CALCULATE PERIMETER"): 
+        trigger_purchase_wall()
 
 elif menu == "8. Hexadecimal ASCII Cipher Encryption":
     st.subheader("🔒 [Hexadecimal ASCII Cipher Encryption]")
-    st.text_input("Enter plaintext:")
-    if st.button("RUN ENCRYPTION MODULE"): trigger_purchase_wall()
+    st.text_input("Enter plaintext data to encrypt:")
+    if st.button("RUN ENCRYPTION MODULE"): 
+        trigger_purchase_wall()
 
 elif menu == "9. Hexadecimal ASCII Cipher Decryption":
     st.subheader("🔓 [Hexadecimal ASCII Cipher Decryption]")
-    st.text_input("Enter ciphertext:")
-    if st.button("RUN DECRYPTION MODULE"): trigger_purchase_wall()
+    st.text_input("Enter ciphertext matrix to decrypt:")
+    if st.button("RUN DECRYPTION MODULE"): 
+        trigger_purchase_wall()
